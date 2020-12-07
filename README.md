@@ -36,7 +36,7 @@ with zlib_state.GzipStateFile('testdata/frankenstein.txt.gz', keep_last_state=Tr
         if i == TARGET_LINE:
             state, pos = f.last_state, f.last_state_pos
 
-with zlib_state.GzipStateFile('testdata/frankenstein.txt.gz', keep_last_state=True) as f:
+with zlib_state.GzipStateFile('testdata/frankenstein.txt.gz') as f:
     f.zseek(pos, state)
     remainder = f.read()
 ```

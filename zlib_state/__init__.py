@@ -2,7 +2,7 @@ import io
 import os
 if hasattr(os, 'add_dll_directory'):
     # On windows, need to be sure that zlib is in the dll directory path before loading ext module
-    # In particular, needed by python 3.8+ on Windows
+    # In particular, needed for python 3.8+ on Windows
     with os.add_dll_directory(os.environ.get("ZLIB_HOME", "C:/Program Files/zlib/bin")):
         from _zlib_state import Decompressor
 else:
@@ -10,7 +10,7 @@ else:
 
 
 class GzipStateFileBase(io.RawIOBase):
-    def __init__(self, path, keep_last_state=False):
+    def __init__(self, path, keep_last_state=False, on_block_boundary=None):
         if isinstance(path, str):
             self.file = open(path, 'rb')
         else:
@@ -19,6 +19,7 @@ class GzipStateFileBase(io.RawIOBase):
         self.last_state = None
         self.last_state_pos = None
         self.keep_last_state = keep_last_state
+        self.on_block_boundary = on_block_boundary
 
     def zseek(self, pos, state):
         self.file.seek(pos)
@@ -38,6 +39,8 @@ class GzipStateFileBase(io.RawIOBase):
             if self.keep_last_state and self.decomp.block_boundary():
                 self.last_state = self.decomp.get_state()
                 self.last_state_pos = self.decomp.total_in()
+                if self.on_block_boundary:
+                    self.on_block_boundary(count)
         return count
 
     def read(self, size=-1):
@@ -55,6 +58,8 @@ class GzipStateFileBase(io.RawIOBase):
             if self.decomp.block_boundary():
                 self.last_state = self.decomp.get_state()
                 self.last_state_pos = self.decomp.total_in()
+                if self.on_block_boundary:
+                    self.on_block_boundary(len(result))
         return result
 
     def eof(self):
@@ -82,11 +87,13 @@ class GzipStateFileBase(io.RawIOBase):
 
 class GzipStateFile(io.BufferedIOBase):
     def __init__(self, path, keep_last_state=False, buffer_size=io.DEFAULT_BUFFER_SIZE):
-        self.raw = GzipStateFileBase(path, keep_last_state)
+        self.raw = GzipStateFileBase(path, keep_last_state, on_block_boundary=self.on_block_boundary)
         self.buffer_size = buffer_size
         self.buffer = bytearray(buffer_size)
         self.buffer_start = 0
         self.buffer_stop = 0
+        self.output_pos = 0
+        self.last_state_output_pos = 0
 
     def detach(self):
         return self.raw
@@ -116,6 +123,7 @@ class GzipStateFile(io.BufferedIOBase):
             size = min(size, count)
         result = self.buffer[start:start+size]
         self.buffer_start += size
+        self.output_pos += size
         return result
 
     def readinto(self, buf):
@@ -133,6 +141,7 @@ class GzipStateFile(io.BufferedIOBase):
         size = min(stop - start, count)
         buf[:size] = self.buffer[start:start+size]
         self.buffer_start += size
+        self.output_pos += size
         return size
 
     def readline(self):
@@ -142,11 +151,13 @@ class GzipStateFile(io.BufferedIOBase):
                 # line found in buffer. Use that and advance buffer pointers
                 line = self.buffer[self.buffer_start:self.buffer_start+idx+1]
                 self.buffer_start += idx + 1
+                self.output_pos += idx + 1
                 return line
             except ValueError:
                 # line break not found in remaining buffer. Start with the remaining buffer and carry on
                 line = self.buffer[self.buffer_start:self.buffer_stop]
                 self.buffer_start, self.buffer_stop = 0, 0 # buffer consumed
+                self.output_pos += len(line)
         else:
             line = b''
         while not line.endswith(b'\n') and not self.raw.eof():
@@ -154,6 +165,7 @@ class GzipStateFile(io.BufferedIOBase):
             try:
                 idx = chunk.index(b'\n')
                 self.buffer_start -= (len(chunk) - idx - 1) # move back the buffer cursor to the end of the line
+                self.output_pos -= (len(chunk) - idx - 1)
                 chunk = chunk[:idx+1]
             except ValueError:
                 pass # \n not found, that's OK
@@ -189,3 +201,6 @@ class GzipStateFile(io.BufferedIOBase):
         super().close()
         self.raw.close()
         self.buffer = None
+
+    def on_block_boundary(self, new_data_count):
+        self.last_state_output_pos = self.output_pos + new_data_count
