@@ -4,11 +4,17 @@ Low-level interface to the zlib library that enables capturing the decoding stat
 
 ## Install
 
+From PyPi:
+
+```
+pip install zlib-state
+```
+
+From source:
+
 ```
 python setup.py install
 ```
-
-(pypi coming soon)
 
 Tested on ubuntu/macos/windows with python 3.5-3.9.
 
