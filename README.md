@@ -45,7 +45,7 @@ with zlib_state.GzipStateFile('testdata/frankenstein.txt.gz', keep_last_state=Tr
 
 Very basic decompression object that's picky and unforgiving.
 
-Based on my benchmarking, this can iterate over gzip files faster then python's gzip.
+Based on my benchmarking, this can iterate over gzip files faster than python's gzip.
 
 A typical usage pattern looks like:
 
