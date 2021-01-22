@@ -14,10 +14,10 @@ if windows:
     ZLIB_HOME = os.environ.get("ZLIB_HOME", "C:/Program Files/zlib")
     include_dirs.append(os.path.join(ZLIB_HOME, "include"))
     libs.append('zlib')
-    libs.append(ZLIB_HOME + "\\lib\\zlibstatic")
-    libs.append("/IMPLIB:" + ZLIB_HOME + "\\lib\\zlibstatic")
-    libs.append("/IMPLIB:" + ZLIB_HOME + "\\lib\\zlibstatic.lib")
-    lib_dirs.append(ZLIB_HOME + "\\lib")
+    libs.append(ZLIB_HOME + "/lib/zlibstatic")
+    lib_dirs.append(ZLIB_HOME + "/lib")
+    lib_dirs.append(ZLIB_HOME + "/lib/zlibstatic")
+    lib_dirs.append(ZLIB_HOME + "/lib/zlibstatic.lib")
 else:
     libs.append('z')
 
