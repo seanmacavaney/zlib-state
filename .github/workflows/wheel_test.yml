@@ -35,5 +35,4 @@ jobs:
     - name: upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ matrix.python-version }}
         path: ./dist/*
