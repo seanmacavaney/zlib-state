@@ -31,7 +31,7 @@ jobs:
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         echo "$INCLUDE"
         set INCLUDE "C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"
-        python setup.py bdist wheel
+        python setup.py bdist_wheel
         dir
     - name: upload artifacts
       uses: actions/upload-artifact@v2
