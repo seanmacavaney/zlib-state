@@ -74,7 +74,7 @@ jobs:
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         echo "$INCLUDE"
         set INCLUDE "C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"
-        python setup.py bdist
+        python setup.py bdist_wheel
     - name: upload
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
