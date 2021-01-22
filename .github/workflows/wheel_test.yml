@@ -34,6 +34,6 @@ jobs:
         python setup.py bdist
     - name: upload artifacts
       uses: actions/upload-artifact@v2
-      name: ${{ matrix.python-version }}
       with:
+        name: ${{ matrix.python-version }}
         path: ./dist/*
