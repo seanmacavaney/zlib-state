@@ -33,6 +33,6 @@ setuptools.setup(
     classifiers=[
         'License :: OSI Approved :: MIT License',
     ],
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     ext_modules=[setuptools.Extension("_zlib_state", ["src/zlib_state.c"], libraries=libs, library_dirs=lib_dirs, include_dirs=include_dirs)],
 )
