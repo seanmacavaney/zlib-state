@@ -27,7 +27,8 @@ jobs:
       env:
         CIBW_SKIP: "cp27-* pp27-*"  # skip Python 2.7 wheels
         CIBW_BEFORE_ALL: >
-          powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/horta/zlib.install/master/install.bat', 'install.bat')"; ./install.bat & "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
+          powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/horta/zlib.install/master/install.bat', 'install.bat')"; ./install.bat"
+        CIBW_BEFORE_BUILD: '"%VS140COMNTOOLS%../../VC/vcvarsall.bat"'
         CIBW_ENVIRONMENT: 'INCLUDE="C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"'
     - name: upload artifacts
       uses: actions/upload-artifact@v2
