@@ -16,7 +16,7 @@ From source:
 python setup.py install
 ```
 
-Tested on ubuntu/macos/windows with python 3.6-3.9.
+Tested on ubuntu/macos/windows with python 3.6-3.10.
 
 ## GzipStateFile
 
