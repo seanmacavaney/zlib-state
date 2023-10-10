@@ -13,7 +13,7 @@ pip install zlib-state
 From source:
 
 ```
-python setup.py install
+pip install .
 ```
 
 Tested on ubuntu/macos/windows with python 3.6-3.10.
