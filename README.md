@@ -16,7 +16,7 @@ From source:
 pip install .
 ```
 
-Tested on ubuntu/macos/windows with python 3.6-3.10.
+Tested on Ubuntu/macOs/Windows with Python 3.7-3.12.
 
 ## GzipStateFile
 
