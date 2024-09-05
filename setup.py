@@ -20,7 +20,7 @@ else:
 
 setuptools.setup(
     name="zlib-state",
-    version="0.1.7",
+    version="0.1.8",
     author="Sean MacAvaney",
     author_email="sean.macavaney@gmail.com",
     description="Low-level interface to the zlib library that enables capturing the decoding state",
