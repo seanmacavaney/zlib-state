@@ -39,7 +39,7 @@ jobs:
         pip install build twine cibuildwheel
     - name: build
       env:
-        CIBW_SKIP: "cp27-* pp27-* cp35-* pp310-* pp311-* pp312-* pp313-*"  # skip Python 2.7 wheels
+        CIBW_SKIP: "cp27-* pp27-* cp35-* pp310-* pp311-* pp312-* pp313-* *musllinux*"  # skip Python 2.7 wheels and musllinux
         CIBW_BEFORE_ALL: "yum install -y zlib-devel"
       run: |
         python -m cibuildwheel --output-dir wheelhouse
