@@ -54,7 +54,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.8, 3.9, '3.10', '3.11', '3.12', '3.13']
+        python-version: [3.9, '3.10', '3.11', '3.12', '3.13', '3.14']
         os: ['windows-latest']
         architecture: ['x64']
     runs-on: ${{ matrix.os }}
@@ -70,7 +70,7 @@ jobs:
         pip install build twine
     - name: build
       run: |
-        powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/horta/zlib.install/master/install.bat', 'install.bat')"; ./install.bat
+        powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/cmacdonald/zlib.install/refs/heads/patch-1/install.bat', 'install.bat')"; ./install.bat
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         echo "$INCLUDE"
         set INCLUDE "C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"

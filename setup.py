@@ -13,14 +13,12 @@ windows = sys.platform.startswith("win")
 if windows:
     ZLIB_HOME = os.environ.get("ZLIB_HOME", "C:/Program Files/zlib")
     include_dirs.append(os.path.join(ZLIB_HOME, "include"))
-    libs.append('zlib')
     lib_dirs.append(os.path.join(ZLIB_HOME, "lib"))
-else:
-    libs.append('z')
+libs.append('z')
 
 setuptools.setup(
     name="zlib-state",
-    version="0.1.10",
+    version="0.1.12",
     author="Sean MacAvaney",
     author_email="sean.macavaney@gmail.com",
     description="Low-level interface to the zlib library that enables capturing the decoding state",
@@ -33,6 +31,6 @@ setuptools.setup(
     classifiers=[
         'License :: OSI Approved :: MIT License',
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.9',
     ext_modules=[setuptools.Extension("_zlib_state", ["src/zlib_state.c"], libraries=libs, library_dirs=lib_dirs, include_dirs=include_dirs)],
 )
