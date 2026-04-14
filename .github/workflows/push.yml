@@ -35,7 +35,7 @@ jobs:
     - name: install-windows
       if: matrix.os == 'windows-latest'
       run: |
-        powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/horta/zlib.install/master/install.bat', 'install.bat')"; ./install.bat
+        powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/cmacdonald/zlib.install/refs/heads/patch-1/install.bat', 'install.bat')"; ./install.bat
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         echo "$INCLUDE"
         set INCLUDE "C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"
