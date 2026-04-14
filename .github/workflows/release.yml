@@ -8,8 +8,8 @@ jobs:
   deploy-sdist:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v4
+    - uses: actions/checkout@v5
+    - uses: actions/setup-python@v6
       with:
         python-version: '3.x'
     - name: install-deps
@@ -29,8 +29,8 @@ jobs:
   deploy-bdist-manylinux:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v4
+    - uses: actions/checkout@v5
+    - uses: actions/setup-python@v6
       with:
         python-version: '3.x'
     - name: install-deps
@@ -59,8 +59,8 @@ jobs:
         architecture: ['x64']
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v4
+    - uses: actions/checkout@v5
+    - uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
     - name: install-deps
